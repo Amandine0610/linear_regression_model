@@ -15,7 +15,7 @@ I implemented **Linear Regression, Decision Trees, and Random Forest** models an
 ---
 
 ## 📂 Project Structure  
-linear_regression_model/ │ ├── summative/ │ ├── linear_regression/ │ │ ├── multivariate.ipynb # Jupyter notebook with model training & evaluation │ ├── API/ │ │ ├── prediction.py # FastAPI implementation │ │ ├── requirements.txt # Required Python libraries │ ├── FlutterApp/ │ │ ├── main.dart # Flutter app for predictions
+linear_regression_model/ │ ├── summative/ │ ├── linear_regression/ │ │ ├── multivariate.ipynb  │ ├── API/ │ │ ├── prediction.py  │ │ ├── requirements.txt  │ ├── FlutterApp/ │ │ ├── main.dart 
 ---
 
 ## 📊 Dataset Description  
@@ -96,7 +96,7 @@ We built an API using **FastAPI** to handle prediction requests.
 ✔ **Method**: `POST`  
 ✔ **Input Variables**:  
 
-```json
+
 {
   "Product_Category": 0,
   "Price": 500,
@@ -104,64 +104,57 @@ We built an API using **FastAPI** to handle prediction requests.
   "Customer_Segment": 2,
   "Marketing_Spend": 7000
 }
-✔ Response Example:
 
-json
-Copy
-Edit
+**✔ Response Example:**
 {
   "Predicted_Sales": 35.80
 }
-🚀 Running the API
+**🚀 Running the API**
 
-1️⃣ Install dependencies
+**1️⃣ Install dependencies**
 pip install -r requirements.txt
-2️⃣ Run FastAPI
 
+**2️⃣ Run FastAPI**
 uvicorn API.prediction:app --reload
-3️⃣ Open Swagger UI to test the API
+
+**3️⃣ Open Swagger UI to test the API**
 http://127.0.0.1:8000/docs
 
-📱 Flutter Mobile App
+**📱 Flutter Mobile App**
 A Flutter app was created to interact with the API. Users enter product details, click "Predict," and receive an estimated sales figure.
 
 ✔ Has input fields for all features
 ✔ Sends data to API and displays the prediction
 ✔ Handles errors (e.g., missing inputs)
 
-🎥 Demo Video
+##🎥 Demo Video
 📌 Watch the 2-minute demo of the API & mobile app:
 👉 [Insert YouTube link here]
 
-🚀 Deployment & Testing
+##🚀 Deployment & Testing
 📌 Live API URL: [Insert public API URL if hosted]
 📌 GitHub Repository: [Insert your GitHub repo link]
 
-📌 How to Run Locally
-1️⃣ Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/your_username/sales_forecasting.git
-cd sales_forecasting
-2️⃣ Install Dependencies
+##📌 How to Run Locally
+**1️⃣ Clone the Repository**
+git clone https://github.com/Amandine0610/linear_regression_model.git
+cd linear_regression_model
+**2️⃣ Install Dependencies**
 pip install -r requirements.txt
-3️⃣ Run the API
+**3️⃣ Run the API**
 uvicorn API.prediction:app --reload
-4️⃣ Run the Flutter App
+**4️⃣ Run the Flutter App**
 flutter run
 
-📌 Conclusion
+##📌 Conclusion
 ✔ This project successfully builds a sales forecasting model and integrates it into an API & mobile app.
 ✔ The Random Forest model provided the best results.
 ✔ The FastAPI endpoint allows real-time predictions.
 ✔ The Flutter app makes predictions user-friendly & accessible.
 
 
-🚀 Future Improvements
+##🚀 Future Improvements
 🔹 Fine-tune hyperparameters for better performance
-🔹 Deploy API to a cloud service for real-world use
-🔹 Improve Flutter UI for better user experience
 
-📩 Contact
+##📩 Contact
 📌 Have questions? Reach out via [a.irakoze@alustudent.com]
