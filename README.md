@@ -15,7 +15,21 @@ I implemented **Linear Regression, Decision Trees, and Random Forest** models an
 ---
 
 ## 📂 Project Structure  
-linear_regression_model/ │ ├── summative/ │ ├── linear_regression/ │ │ ├── multivariate.ipynb  │ ├── API/ │ │ ├── prediction.py  │ │ ├── requirements.txt  │ ├── FlutterApp/ │ │ ├── main.dart 
+
+linear_regression_model/
+│
+├── summative/
+│   ├── linear_regression/
+│
+│   │   ├── multivariate.ipynb
+│   ├── API/
+│   │   ├── prediction.py
+│   │   ├── requirements.txt
+│   ├── FlutterApp/
+│       ├── sales_forecasting_app
+│           ├── main.dart
+
+
 ---
 
 ## 📊 Dataset Description  
@@ -84,7 +98,7 @@ We built an API using **FastAPI** to handle prediction requests.
 | **Decision Tree**  | 106.0950  | -0.1504  |
 | **Random Forest**  | 59.0906  | -0.0925  |
 
-🎯 **Best Model: Random Forest**  
+🎯 **# Best Model**: **Random Forest**  
 📌 **Reason**: Lowest MSE and better predictive performance.  
 
 ---
@@ -126,16 +140,16 @@ A Flutter app was created to interact with the API. Users enter product details,
 ✔ Has input fields for all features
 ✔ Sends data to API and displays the prediction
 ✔ Handles errors (e.g., missing inputs)
-
-##🎥 Demo Video
+ 
+## 🎥 Demo Video
 📌 Watch the 2-minute demo of the API & mobile app:
 👉 [Insert YouTube link here]
 
-##🚀 Deployment & Testing
+## 🚀 Deployment & Testing
 📌 Live API URL: [Insert public API URL if hosted]
 📌 GitHub Repository: [Insert your GitHub repo link]
 
-##📌 How to Run Locally
+## 📌 How to Run Locally
 **1️⃣ Clone the Repository**
 git clone https://github.com/Amandine0610/linear_regression_model.git
 cd linear_regression_model
@@ -146,15 +160,15 @@ uvicorn API.prediction:app --reload
 **4️⃣ Run the Flutter App**
 flutter run
 
-##📌 Conclusion
+## 📌 Conclusion
 ✔ This project successfully builds a sales forecasting model and integrates it into an API & mobile app.
 ✔ The Random Forest model provided the best results.
 ✔ The FastAPI endpoint allows real-time predictions.
 ✔ The Flutter app makes predictions user-friendly & accessible.
 
 
-##🚀 Future Improvements
+## 🚀 Future Improvements
 🔹 Fine-tune hyperparameters for better performance
 
-##📩 Contact
+## 📩 Contact
 📌 Have questions? Reach out via [a.irakoze@alustudent.com]
