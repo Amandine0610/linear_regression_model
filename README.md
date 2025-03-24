@@ -64,7 +64,7 @@ Access Swagger UI at http://localhost:8000/docs.
 3. **Run the App**
   - Connect a physical device (USB Debugging enabled).
   - Update main.dart with the Render URL: 
-   ```dart
+   ```bash
    final url = Uri.parse("https://linear-regression-model-2-v1gt.onrender.com/predict");
 - Run:
   ``` bash
