@@ -57,7 +57,7 @@ class _SportsPremiumPredictorState extends State<SportsPremiumPredictor> {
     });
 
     // Use your Render URL here
-    final url = Uri.parse("https://your-service.onrender.com/predict");
+    final url = Uri.parse("https://linear-regression-model-2-v1gt.onrender.com/predict");
 
     final Map<String, dynamic> inputData = {
       "price": double.tryParse(priceController.text) ?? 0.0,
