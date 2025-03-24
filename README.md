@@ -33,8 +33,9 @@ linear_regression_model/
 ---
 
 ## 📊 Dataset Description  
-- **Source**: *(Add the Kaggle or other dataset link here)*  
-- **Size**: *(Number of rows & columns)*  
+
+- **Source**: https://www.kaggle.com/datasets/nevildhinoja/e-commerce-sales-prediction-dataset  
+- **Size**: 1,000 records 
 - **Features**:  
   - `Product_Category`: Encoded categorical variable representing product type  
   - `Price`: The cost of the product  
@@ -59,11 +60,13 @@ linear_regression_model/
 | **Random Forest**  | 59.0906  | -0.0925  |
 
 🎯 **Best Model: Random Forest**  
+
 📌 **Reason**: Lowest MSE and better predictive performance.  
 
 ---
 
 ## 🌐 API Implementation (FastAPI)  
+
 We built an API using **FastAPI** to handle prediction requests.  
 
 ✔ **Endpoint**: `/predict`  
@@ -71,45 +74,6 @@ We built an API using **FastAPI** to handle prediction requests.
 ✔ **Input Variables**:  
 
 ---
-
-## 📊 Dataset Description  
-- **Source**: *(Add the Kaggle or other dataset link here)*  
-- **Size**: *(Number of rows & columns)*  
-- **Features**:  
-  - `Product_Category`: Encoded categorical variable representing product type  
-  - `Price`: The cost of the product  
-  - `Discount`: Discount offered on the product  
-  - `Customer_Segment`: Encoded categorical variable representing the customer group  
-  - `Marketing_Spend`: Amount spent on marketing  
-  - `Units_Sold`: The target variable (sales prediction)  
-
-📌 **Data Processing Steps:**  
-✔ Encoded categorical variables (`Product_Category`, `Customer_Segment`)  
-✔ Standardized numerical features (`Price`, `Discount`, `Marketing_Spend`)  
-✔ Split dataset into **80% training and 20% testing**  
-
----
-
-## 🛠️ Models Implemented  
-
-| Model               | Mean Squared Error (MSE) | R² Score |
-|---------------------|------------------------|----------|
-| **Linear Regression (SGD)** | 84.7276  | -0.0925  |
-| **Decision Tree**  | 106.0950  | -0.1504  |
-| **Random Forest**  | 59.0906  | -0.0925  |
-
-🎯 **# Best Model**: **Random Forest**  
-📌 **Reason**: Lowest MSE and better predictive performance.  
-
----
-
-## 🌐 API Implementation (FastAPI)  
-We built an API using **FastAPI** to handle prediction requests.  
-
-✔ **Endpoint**: `/predict`  
-✔ **Method**: `POST`  
-✔ **Input Variables**:  
-
 
 {
   "Product_Category": 0,
@@ -120,15 +84,19 @@ We built an API using **FastAPI** to handle prediction requests.
 }
 
 **✔ Response Example:**
+
 {
   "Predicted_Sales": 35.80
 }
+
 **🚀 Running the API**
 
 **1️⃣ Install dependencies**
+
 pip install -r requirements.txt
 
 **2️⃣ Run FastAPI**
+
 uvicorn API.prediction:app --reload
 
 **3️⃣ Open Swagger UI to test the API**
@@ -142,25 +110,39 @@ A Flutter app was created to interact with the API. Users enter product details,
 ✔ Handles errors (e.g., missing inputs)
  
 ## 🎥 Demo Video
+
 📌 Watch the 2-minute demo of the API & mobile app:
+
 👉 [Insert YouTube link here]
 
 ## 🚀 Deployment & Testing
+
 📌 Live API URL: [Insert public API URL if hosted]
+
 📌 GitHub Repository: [Insert your GitHub repo link]
 
 ## 📌 How to Run Locally
+
 **1️⃣ Clone the Repository**
+
 git clone https://github.com/Amandine0610/linear_regression_model.git
+
 cd linear_regression_model
+
 **2️⃣ Install Dependencies**
+
 pip install -r requirements.txt
+
 **3️⃣ Run the API**
+
 uvicorn API.prediction:app --reload
+
 **4️⃣ Run the Flutter App**
+
 flutter run
 
 ## 📌 Conclusion
+
 ✔ This project successfully builds a sales forecasting model and integrates it into an API & mobile app.
 ✔ The Random Forest model provided the best results.
 ✔ The FastAPI endpoint allows real-time predictions.
@@ -168,7 +150,9 @@ flutter run
 
 
 ## 🚀 Future Improvements
+
 🔹 Fine-tune hyperparameters for better performance
 
 ## 📩 Contact
+
 📌 Have questions? Reach out via [a.irakoze@alustudent.com]
