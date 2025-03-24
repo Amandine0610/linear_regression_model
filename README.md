@@ -7,7 +7,7 @@ This project predicts sales for premium sports products using a linear regressio
 - **Task 2**: Built a FastAPI API to serve predictions, deployed on Render.
 - **Task 3**: Developed a Flutter app with a beautiful UI to interact with the API.
 
-## 📂 Project Structure  
+##  Project Structure  
 
 linear_regression_model/
 ├── summative/
@@ -73,7 +73,7 @@ Access Swagger UI at http://localhost:8000/docs.
   ``` bash
   flutter run
 
-# Usage
+## Usage
 - **API**: POST to /predict with:
   ```bash
   {"price": 500, "discount": 20, "marketing_spend": 5000}
@@ -81,22 +81,22 @@ Access Swagger UI at http://localhost:8000/docs.
 
 - **Flutter App:** Enter Price, Discount, and Marketing Spend, tap "Predict" to see forecasted units sold.
 
-# Dependencies
+## Dependencies
 - Python: fastapi, uvicorn, scikit-learn, pandas, numpy, pydantic (see requirements.txt).
 - Flutter: http, fl_chart (see pubspec.yaml).
 
-# Deployment
+## Deployment
 - Hosted on Render with root directory summative/API.
 - Build: pip install -r requirements.txt.
 - Start: python prediction.py.
 
-# Notes
+## Notes
 - Model trained on synthetic sports premium sales data (Task 1).
 - API validates inputs: Price (0-1000), Discount (0-50), Marketing Spend (0-10000).
 - Flutter UI uses Material 3 with a teal theme.
 
-# Author
-- Amandine0610
-
-# Demo video link
+## Demo video link
 link : https://youtu.be/pY28WqxE1VE?si=l_xF4hWG7kXgRGO1
+
+## Author
+- Amandine0610
