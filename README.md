@@ -62,19 +62,20 @@ Access Swagger UI at http://localhost:8000/docs.
    ```bash
    flutter pub get
 3. **Run the App**
-  - Connect a physical device (USB Debugging enabled).
-  - Update main.dart with the Render URL: 
-   ```bash
-   final url = Uri.parse("https://linear-regression-model-2-v1gt.onrender.com/predict");
+- Connect a physical device (USB Debugging enabled).
+- Update main.dart with the Render URL: 
+  ```bash
+  final url = Uri.parse("https://linear-regression-model-2-v1gt.onrender.com/predict");
 - Run:
   ``` bash
   flutter run
 
 # Usage
  - **API:** POST to /predict with:
-  ```json
+  ```bash
   {"price": 500, "discount": 20, "marketing_spend": 5000}
-  Response: {"predicted_units_sold": 31.09}.
+- Response: {"predicted_units_sold": 31.09}.
+
  - **Flutter App:** Enter Price, Discount, and Marketing Spend, tap "Predict" to see forecasted units sold.
 # Dependencies
  - **Python:** fastapi, uvicorn, scikit-learn, pandas, numpy, pydantic (see requirements.txt).
