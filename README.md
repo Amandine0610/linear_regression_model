@@ -16,10 +16,13 @@ linear_regression_model/
 │   │   ├── best_sports_premium_model.pkl  # Trained model
 │   │   ├── scaler.pkl                # Data scaler
 │   │   └── requirements.txt          # Python dependencies
-├── flutter_app/                      # Flutter project folder
-│   ├── lib/
-│   │   └── main.dart                # Flutter UI code
-│   └── pubspec.yaml                 # Flutter dependencies
+│   ├── flutter_app/  # Flutter project folder
+│   │   ├── sales_forecasting_app/    
+│   │   │   ├── lib/                 
+│   │   │   │   └── main.dart   # Flutter UI code            
+│   │   │   └── pubspec.yaml # Flutter dependencies
+│   ├── linear_regression/    
+│   │   ├── multivariate.ipynb    # notebook    
 └── README.md
 
 ---
@@ -50,7 +53,7 @@ Access Swagger UI at http://localhost:8000/docs.
 
 4. **Deployed API**
 
-  - Live at: https://linear-regression-model-2-v1gt.onrender.com/predict .
+  - Live at: https://linear-regression-model-2-v1gt.onrender.com/predict.
   - Swagger UI: https://linear-regression-model-2-v1gt.onrender.com/docs.
   
 **Flutter App Setup (Task 3)**
@@ -63,7 +66,7 @@ Access Swagger UI at http://localhost:8000/docs.
    flutter pub get
 3. **Run the App**
 - Connect a physical device (USB Debugging enabled).
-- Update main.dart with the Render URL: 
+- Updated main.dart with the Render URL: 
   ```bash
   final url = Uri.parse("https://linear-regression-model-2-v1gt.onrender.com/predict");
 - Run:
@@ -96,3 +99,4 @@ Access Swagger UI at http://localhost:8000/docs.
 - Amandine0610
 
 # Demo video link
+link : https://youtu.be/pY28WqxE1VE?si=l_xF4hWG7kXgRGO1
