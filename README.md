@@ -71,36 +71,26 @@ Access Swagger UI at http://localhost:8000/docs.
   flutter run
 
 # Usage
-
- - **API:** POST to /predict with:
-
+- **API**: POST to /predict with:
   ```bash
   {"price": 500, "discount": 20, "marketing_spend": 5000}
-
-- Response: {"predicted_units_sold": 31.09}.
+  Response: "predicted_units_sold": 31.09.
 
 - **Flutter App:** Enter Price, Discount, and Marketing Spend, tap "Predict" to see forecasted units sold.
 
 # Dependencies
-
-- **Python:** fastapi, uvicorn, scikit-learn, pandas, numpy, pydantic (see requirements.txt).
-- **Flutter:** http, fl_chart (see pubspec.yaml).
+- Python: fastapi, uvicorn, scikit-learn, pandas, numpy, pydantic (see requirements.txt).
+- Flutter: http, fl_chart (see pubspec.yaml).
 
 # Deployment
-
 - Hosted on Render with root directory summative/API.
 - Build: pip install -r requirements.txt.
 - Start: python prediction.py.
 
 # Notes
-
 - Model trained on synthetic sports premium sales data (Task 1).
 - API validates inputs: Price (0-1000), Discount (0-50), Marketing Spend (0-10000).
 - Flutter UI uses Material 3 with a teal theme.
 
 # Author
-
 - Amandine0610
-
-# Demo Video link
-
