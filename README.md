@@ -1,158 +1,97 @@
-# 📊 Sales Forecasting Model 
+# 📊 Sports Premium Sales Forecasting Project
 
-## 🚀 Project Overview  
-This project focuses on **predicting sales** for an **E-commerce business** using **Machine Learning models**.  
-The goal is to help businesses optimize pricing, discounts, and marketing strategies by predicting **units sold** based on key factors like:  
+This project predicts sales for premium sports products using a linear regression model, deployed as a FastAPI API on Render, and integrated with a Flutter mobile app.
 
-✔ **Product Category**  
-✔ **Price**  
-✔ **Discount**  
-✔ **Customer Segment**  
-✔ **Marketing Spend**  
-
-I implemented **Linear Regression, Decision Trees, and Random Forest** models and deployed the best-performing model using **FastAPI**. The predictions are used in a **Flutter mobile app** that allows users to input product details and get sales forecasts.  
-
----
+## Overview
+- **Task 1**: Trained a linear regression model on sports premium sales data in Google Colab.
+- **Task 2**: Built a FastAPI API to serve predictions, deployed on Render.
+- **Task 3**: Developed a Flutter app with a beautiful UI to interact with the API.
 
 ## 📂 Project Structure  
 
 linear_regression_model/
-│
 ├── summative/
-│   ├── linear_regression/
-│
-│   │   ├── multivariate.ipynb
 │   ├── API/
-│   │   ├── prediction.py
-│   │   ├── requirements.txt
-│   ├── FlutterApp/
-│       ├── sales_forecasting_app
-│           ├── main.dart
-
-
----
-
-## 📊 Dataset Description  
-
-- **Source**: https://www.kaggle.com/datasets/nevildhinoja/e-commerce-sales-prediction-dataset  
-- **Size**: 1,000 records 
-- **Features**:  
-  - `Product_Category`: Encoded categorical variable representing product type  
-  - `Price`: The cost of the product  
-  - `Discount`: Discount offered on the product  
-  - `Customer_Segment`: Encoded categorical variable representing the customer group  
-  - `Marketing_Spend`: Amount spent on marketing  
-  - `Units_Sold`: The target variable (sales prediction)  
-
-📌 **Data Processing Steps:**  
-✔ Encoded categorical variables (`Product_Category`, `Customer_Segment`)  
-✔ Standardized numerical features (`Price`, `Discount`, `Marketing_Spend`)  
-✔ Split dataset into **80% training and 20% testing**  
+│   │   ├── prediction.py              # FastAPI app
+│   │   ├── best_sports_premium_model.pkl  # Trained model
+│   │   ├── scaler.pkl                # Data scaler
+│   │   └── requirements.txt          # Python dependencies
+├── flutter_app/                      # Flutter project folder
+│   ├── lib/
+│   │   └── main.dart                # Flutter UI code
+│   └── pubspec.yaml                 # Flutter dependencies
+└── README.md
 
 ---
 
-## 🛠️ Models Implemented  
+## Setup and Installation
 
-| Model               | Mean Squared Error (MSE) | R² Score |
-|---------------------|------------------------|----------|
-| **Linear Regression (SGD)** | 84.7276  | -0.0925  |
-| **Decision Tree**  | 106.0950  | -0.1504  |
-| **Random Forest**  | 59.0906  | -0.0925  |
+### Prerequisites
+- Python 3.10
+- Flutter 3.x
+- Git
+- Render account
 
-🎯 **Best Model: Random Forest**  
+### API Setup (Task 2)
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Amandine0610/linear_regression_model.git
+   cd linear_regression_model/summative/API
 
-📌 **Reason**: Lowest MSE and better predictive performance.  
+2. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
 
----
+3. **Run locally**
+   ```bash
+   python prediction.py
 
-## 🌐 API Implementation (FastAPI)  
+Access Swagger UI at http://localhost:8000/docs.
 
-We built an API using **FastAPI** to handle prediction requests.  
+4. **Deployed API**
 
-✔ **Endpoint**: `/predict`  
-✔ **Method**: `POST`  
-✔ **Input Variables**:  
+   Live at: https://linear-regression-model-2-v1gt.onrender.com/predict .
+   Swagger UI: https://linear-regression-model-2-v1gt.onrender.com/docs.
+  
+**Flutter App Setup (Task 3)**
+1. **Navigate to Flutter Folder**
+   ```bash
+   cd FlutterApp
+   cd sales_forecasting_app
+2. **Install dependencies**
+   ```bash
+   flutter pub get
+3. **Run the App**
+   Connect a physical device (USB Debugging enabled).
+   Update main.dart with the Render URL: 
+   ```dart
+   final url = Uri.parse("https://linear-regression-model-2-v1gt.onrender.com/predict");
+   
+   Run:
+   ```bash
+   flutter run
+# Usage
+  **API:** POST to /predict with:
+  ```json
+  {"price": 500, "discount": 20, "marketing_spend": 5000}
+  Response: {"predicted_units_sold": 31.09}.
+  **Flutter App:** Enter Price, Discount, and Marketing Spend, tap "Predict" to see forecasted units sold.
+# Dependencies
+  **Python:** fastapi, uvicorn, scikit-learn, pandas, numpy, pydantic (see requirements.txt).
+  **Flutter:** http, fl_chart (see pubspec.yaml).
 
----
+# Deployment
+ Hosted on Render with root directory summative/API.
+ Build: pip install -r requirements.txt.
+ Start: python prediction.py.
 
-{
-  "Product_Category": 0,
-  "Price": 500,
-  "Discount": 10,
-  "Customer_Segment": 2,
-  "Marketing_Spend": 7000
-}
+# Notes
+ Model trained on synthetic sports premium sales data (Task 1).
+ API validates inputs: Price (0-1000), Discount (0-50), Marketing Spend (0-10000).
+ Flutter UI uses Material 3 with a teal theme.
 
-**✔ Response Example:**
+# Author
+ Amandine0610
+ ---
 
-{
-  "Predicted_Sales": 35.80
-}
-
-**🚀 Running the API**
-
-**1️⃣ Install dependencies**
-
-pip install -r requirements.txt
-
-**2️⃣ Run FastAPI**
-
-uvicorn API.prediction:app --reload
-
-**3️⃣ Open Swagger UI to test the API**
-http://127.0.0.1:8000/docs
-
-**📱 Flutter Mobile App**
-A Flutter app was created to interact with the API. Users enter product details, click "Predict," and receive an estimated sales figure.
-
-✔ Has input fields for all features
-✔ Sends data to API and displays the prediction
-✔ Handles errors (e.g., missing inputs)
- 
-## 🎥 Demo Video
-
-📌 Watch the 2-minute demo of the API & mobile app:
-
-👉 [Insert YouTube link here]
-
-## 🚀 Deployment & Testing
-
-📌 Live API URL: [Insert public API URL if hosted]
-
-📌 GitHub Repository: [Insert your GitHub repo link]
-
-## 📌 How to Run Locally
-
-**1️⃣ Clone the Repository**
-
-git clone https://github.com/Amandine0610/linear_regression_model.git
-
-cd linear_regression_model
-
-**2️⃣ Install Dependencies**
-
-pip install -r requirements.txt
-
-**3️⃣ Run the API**
-
-uvicorn API.prediction:app --reload
-
-**4️⃣ Run the Flutter App**
-
-flutter run
-
-## 📌 Conclusion
-
-✔ This project successfully builds a sales forecasting model and integrates it into an API & mobile app.
-✔ The Random Forest model provided the best results.
-✔ The FastAPI endpoint allows real-time predictions.
-✔ The Flutter app makes predictions user-friendly & accessible.
-
-
-## 🚀 Future Improvements
-
-🔹 Fine-tune hyperparameters for better performance
-
-## 📩 Contact
-
-📌 Have questions? Reach out via [a.irakoze@alustudent.com]
+### Demo Video Outline
