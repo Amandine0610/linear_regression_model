@@ -7,86 +7,76 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      primarySwatch: Colors.blue,
+      primarySwatch: Colors.teal,
       brightness: Brightness.light,
       useMaterial3: true,
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         filled: true,
         fillColor: Colors.grey.shade100,
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
     ),
     darkTheme: ThemeData(
+      primarySwatch: Colors.teal,
       brightness: Brightness.dark,
       useMaterial3: true,
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         filled: true,
       ),
     ),
     themeMode: ThemeMode.system,
-    home: HomeScreen(),
+    home: SportsPremiumPredictor(),
   ));
 }
 
-class HomeScreen extends StatefulWidget {
+class SportsPremiumPredictor extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _SportsPremiumPredictorState createState() => _SportsPremiumPredictorState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController productCategoryController = TextEditingController();
+class _SportsPremiumPredictorState extends State<SportsPremiumPredictor> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
-  final TextEditingController customerSegmentController = TextEditingController();
   final TextEditingController marketingSpendController = TextEditingController();
-  
+
   String predictionResult = "";
   double predictedSales = 0.0;
   bool isLoading = false;
-  List<Map<String, dynamic>> predictionHistory = [];
-  
+
   Future<void> predictSales() async {
     setState(() {
       isLoading = true;
       predictionResult = "";
     });
-    
-    final url = Uri.parse("http://127.0.0.1:8000/predict");
-    
+
+    // Use your Render URL here
+    final url = Uri.parse("https://your-service.onrender.com/predict");
+
     final Map<String, dynamic> inputData = {
-      "Product_Category": int.tryParse(productCategoryController.text) ?? 0,
-      "Price": double.tryParse(priceController.text) ?? 0.0,
-      "Discount": double.tryParse(discountController.text) ?? 0.0,
-      "Customer_Segment": int.tryParse(customerSegmentController.text) ?? 0,
-      "Marketing_Spend": double.tryParse(marketingSpendController.text) ?? 0.0,
+      "price": double.tryParse(priceController.text) ?? 0.0,
+      "discount": double.tryParse(discountController.text) ?? 0.0,
+      "marketing_spend": double.tryParse(marketingSpendController.text) ?? 0.0,
     };
-    
+
     try {
       final response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(inputData),
       );
-      
+
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
-        final prediction = jsonResponse["Predicted Units Sold"];
-        
         setState(() {
-          predictedSales = prediction.toDouble();
-          predictionResult = "${prediction.toStringAsFixed(2)} units";
-          
-          // Add to history
-          predictionHistory.add({
-            ...inputData,
-            "prediction": prediction,
-            "timestamp": DateTime.now().toString(),
-          });
+          predictedSales = jsonResponse["predicted_units_sold"].toDouble();
+          predictionResult = "${predictedSales.toStringAsFixed(2)} units";
         });
       } else {
         setState(() {
@@ -95,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } catch (e) {
       setState(() {
-        predictionResult = "Failed to get prediction: $e";
+        predictionResult = "Failed: $e";
       });
     } finally {
       setState(() {
@@ -103,39 +93,26 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
-  
+
   void resetForm() {
-    productCategoryController.clear();
     priceController.clear();
     discountController.clear();
-    customerSegmentController.clear();
     marketingSpendController.clear();
     setState(() {
       predictionResult = "";
       predictedSales = 0.0;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sales Predictor"),
+        title: Text("Sports Premium Predictor"),
         centerTitle: true,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.history),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PredictionHistoryScreen(history: predictionHistory),
-                ),
-              );
-            },
-          ),
-        ],
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -144,97 +121,60 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header
+                // Header Card
                 Card(
                   elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        Icon(Icons.shopping_cart, size: 48, color: Theme.of(context).primaryColor),
+                        Icon(Icons.sports, size: 48, color: Colors.teal),
                         SizedBox(height: 8),
                         Text(
-                          "Sales Prediction Tool",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          "Premium Sales Prediction",
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Enter product details to predict sales",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
+                          "Forecast sales for premium sports products",
+                          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                         ),
                       ],
                     ),
                   ),
                 ),
-                
+
                 SizedBox(height: 24),
-                
-                // Input fields
+
+                // Input Card
                 Card(
                   elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Product Information",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          "Enter Details",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 16),
                         InputField(
-                          controller: productCategoryController,
-                          label: "Product Category",
-                          icon: Icons.category,
+                          controller: priceController,
+                          label: "Price",
+                          icon: Icons.attach_money,
                           keyboardType: TextInputType.number,
-                          helper: "Enter product category ID",
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: InputField(
-                                controller: priceController,
-                                label: "Price",
-                                icon: Icons.attach_money,
-                                keyboardType: TextInputType.number,
-                                prefix: "\$",
-                              ),
-                            ),
-                            SizedBox(width: 16),
-                            Expanded(
-                              child: InputField(
-                                controller: discountController,
-                                label: "Discount",
-                                icon: Icons.discount,
-                                keyboardType: TextInputType.number,
-                                suffix: "%",
-                              ),
-                            ),
-                          ],
+                          prefix: "\$",
                         ),
                         SizedBox(height: 16),
                         InputField(
-                          controller: customerSegmentController,
-                          label: "Customer Segment",
-                          icon: Icons.people,
+                          controller: discountController,
+                          label: "Discount",
+                          icon: Icons.discount,
                           keyboardType: TextInputType.number,
-                          helper: "Enter customer segment ID",
+                          suffix: "%",
                         ),
                         SizedBox(height: 16),
                         InputField(
@@ -248,10 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                
+
                 SizedBox(height: 24),
-                
-                // Action buttons
+
+                // Buttons
                 Row(
                   children: [
                     Expanded(
@@ -260,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         label: Text("Reset"),
                         onPressed: resetForm,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 12),
                           backgroundColor: Colors.grey,
                           foregroundColor: Colors.white,
                         ),
@@ -269,31 +208,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton.icon(
-                        icon: isLoading 
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : Icon(Icons.analytics),
-                        label: Text(isLoading ? "Predicting..." : "Predict Sales"),
+                        icon: isLoading
+                            ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Icon(Icons.analytics),
+                        label: Text(isLoading ? "Predicting..." : "Predict"),
                         onPressed: isLoading ? null : predictSales,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundColor: Colors.teal,
                           foregroundColor: Colors.white,
                         ),
                       ),
                     ),
                   ],
                 ),
-                
+
                 SizedBox(height: 24),
-                
-                // Results card
+
+                // Result Card
                 if (predictionResult.isNotEmpty)
                   ResultCard(
                     prediction: predictionResult,
@@ -313,33 +251,28 @@ class InputField extends StatelessWidget {
   final String label;
   final IconData icon;
   final TextInputType keyboardType;
-  final String? helper;
   final String? prefix;
   final String? suffix;
-  
+
   const InputField({
     required this.controller,
     required this.label,
     required this.icon,
     this.keyboardType = TextInputType.text,
-    this.helper,
     this.prefix,
     this.suffix,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon),
+        prefixIcon: Icon(icon, color: Colors.teal),
         prefixText: prefix,
         suffixText: suffix,
-        helperText: helper,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
       keyboardType: keyboardType,
     );
@@ -349,23 +282,20 @@ class InputField extends StatelessWidget {
 class ResultCard extends StatelessWidget {
   final String prediction;
   final double predictedValue;
-  
+
   const ResultCard({
     required this.prediction,
     required this.predictedValue,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      color: Theme.of(context).primaryColor.withOpacity(0.1),
+      color: Colors.teal.withOpacity(0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 1,
-        ),
+        side: BorderSide(color: Colors.teal, width: 1),
       ),
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -373,10 +303,7 @@ class ResultCard extends StatelessWidget {
           children: [
             Text(
               "Prediction Result",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
             Row(
@@ -384,18 +311,11 @@ class ResultCard extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.trending_up,
-                        size: 48,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                      Icon(Icons.trending_up, size: 48, color: Colors.teal),
                       SizedBox(height: 8),
                       Text(
-                        "Expected Sales",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
+                        "Predicted Sales",
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                       SizedBox(height: 4),
                       Text(
@@ -403,7 +323,7 @@ class ResultCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.teal,
                         ),
                       ),
                     ],
@@ -427,9 +347,9 @@ class ResultCard extends StatelessWidget {
 
 class SimpleBarChart extends StatelessWidget {
   final double value;
-  
+
   const SimpleBarChart({required this.value});
-  
+
   @override
   Widget build(BuildContext context) {
     return BarChart(
@@ -445,9 +365,7 @@ class SimpleBarChart extends StatelessWidget {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return Text('Sales');
-              },
+              getTitlesWidget: (value, meta) => Text('Sales'),
             ),
           ),
         ),
@@ -460,163 +378,13 @@ class SimpleBarChart extends StatelessWidget {
               BarChartRodData(
                 toY: value,
                 width: 40,
-                color: Theme.of(context).primaryColor,
+                color: Colors.teal,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(6),
                   topRight: Radius.circular(6),
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class PredictionHistoryScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> history;
-  
-  const PredictionHistoryScreen({required this.history});
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Prediction History"),
-        centerTitle: true,
-      ),
-      body: history.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.history,
-                    size: 64,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    "No prediction history yet",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: history.length,
-              itemBuilder: (context, index) {
-                final item = history[history.length - 1 - index];
-                return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      child: Text("${index + 1}"),
-                    ),
-                    title: Text(
-                      "Predicted: ${item['prediction'].toStringAsFixed(2)} units",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      "Price: \$${item['Price']} | Discount: ${item['Discount']}% | Marketing: \$${item['Marketing_Spend']}",
-                    ),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => PredictionDetailsSheet(data: item),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-    );
-  }
-}
-
-class PredictionDetailsSheet extends StatelessWidget {
-  final Map<String, dynamic> data;
-  
-  const PredictionDetailsSheet({required this.data});
-  
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Prediction Details",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 16),
-          DetailRow("Product Category", "${data['Product_Category']}"),
-          DetailRow("Price", "\$${data['Price']}"),
-          DetailRow("Discount", "${data['Discount']}%"),
-          DetailRow("Customer Segment", "${data['Customer_Segment']}"),
-          DetailRow("Marketing Spend", "\$${data['Marketing_Spend']}"),
-          Divider(height: 32),
-          DetailRow(
-            "Predicted Sales",
-            "${data['prediction'].toStringAsFixed(2)} units",
-            highlighted: true,
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Close"),
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(double.infinity, 50),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DetailRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final bool highlighted;
-  
-  const DetailRow(
-    this.label,
-    this.value, {
-    this.highlighted = false,
-  });
-  
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 16,
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: highlighted ? FontWeight.bold : FontWeight.normal,
-              fontSize: 16,
-              color: highlighted ? Theme.of(context).primaryColor : null,
-            ),
           ),
         ],
       ),
