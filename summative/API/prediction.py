@@ -1,49 +1,45 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import joblib
-import numpy as np
+from pydantic import BaseModel, Field
+import pickle
+import pandas as pd
 
-# Load the saved model
-model = joblib.load("sales_forecasting_model.pkl")
-
-# Define the API app
-app = FastAPI(title="Sales Forecasting API", description="Predicts the number of units sold based on input features")
-
-# Define the expected input data format
-class SalesInput(BaseModel):
-    Product_Category: int
-    Price: float
-    Discount: float
-    Customer_Segment: int
-    Marketing_Spend: float
-
-
-@app.post("/predict")
-def predict_sales(data: SalesInput):
-    """Predict the number of units sold based on input features."""
-    
-    # Convert input data into NumPy array
-    input_data = np.array([[data.Product_Category, data.Price, data.Discount, data.Customer_Segment, data.Marketing_Spend]])
-    
-    # Make prediction
-    prediction = model.predict(input_data)[0]
-    
-    return {"Predicted Units Sold": round(prediction, 2)}
-
-@app.get("/")
-def home():
-    return {"message": "API is running!"}
+app = FastAPI(title="Sports Premium Sales Forecasting API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (you can restrict to specific domains later)
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# Run the API using uvicorn
+class SalesInput(BaseModel):
+    price: float = Field(..., ge=0, le=1000, description="Price of the sports product (0-1000)")
+    discount: float = Field(..., ge=0, le=50, description="Discount percentage (0-50)")
+    marketing_spend: float = Field(..., ge=0, le=10000, description="Marketing spend in dollars (0-10000)")
+
+# Load model and scaler
+with open('best_sports_premium_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+with open('scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
+
+@app.post("/predict")
+async def predict(input_data: SalesInput):
+    try:
+        data = pd.DataFrame({
+            'Price': [input_data.price],
+            'Discount': [input_data.discount],
+            'Marketing_Spend': [input_data.marketing_spend]
+        })
+        scaled_data = scaler.transform(data)
+        prediction = model.predict(scaled_data)[0]
+        prediction = round(float(prediction), 2)
+        return {"predicted_units_sold": prediction}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
